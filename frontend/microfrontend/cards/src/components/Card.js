@@ -27,7 +27,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   );
 
   return (
-    <li className="places__item card">
+    <li className="card">
       <div className="card__image" style={cardStyle} onClick={handleClick}>
       </div>
       <button type="button" className={cardDeleteButtonClassName} onClick={handleDeleteClick}></button>

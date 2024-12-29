@@ -29,25 +29,53 @@
 
 
 ### Cards
-Управления карточками мест (создание, удаление). Так же принято решение включить в него функционал оценки карточек (лайки), т.к. пока он используется только в карточках
-[Card](/frontend/microfrontend/cards/src/components/Card.js)
+Управления карточками мест (создание, удаление)
+- Принято решение включить в него функционал оценки карточек (лайки), т.к. пока он используется только в карточках.
+- В теге `<li className="places__item card">` удалил класс `places__item`, т.к. это была единственная точка его упоминания в монолитном проекте. При разбиении на микрофронтенды возникла связанность с файлом Main.js, который отправился в микрофронтенд **Host**
 
+Компоненты интерфейса:
+- [Card](/frontend/microfrontend/cards/src/components/Card.js)
+- На следующих этапах реинжиниринга из микрофронтенда **Host** можно рассмотреть перенос вёрстки и логики компонентов `AddPlacePopup` и `ImagePopup`, т.к. это будет удовлетворять стратегиям вертикальной нарезки и изоляции
+
+API:
+- [api.js](/frontend/microfrontend/cards/utils/api.js)
 
 ### Users
 Управление профилем пользователя (аватар, имя, занятие)
+- На текущем этапе разделения на микрофронтенды сервис будет содержать логику, отвечающую за сущность "Пользователь"
 
+Компоненты интерфейса:
+- Отсутствуют, но на следующих этапах реинжиниринга из микрофронтенда **Host** можно рассмотреть перенос вёрстки и логики компонентов `EditAvatarPopup` и `EditProfilePopup`, т.к. это будет удовлетворять стратегиям вертикальной нарезки и изоляции
+
+API:
+- [api.js](/frontend/microfrontend/users/utils/api.js)
 
 ### Auth
-Управление авторизацией пользователя и выхода из системы. Выделен отдельно от Users, т.к. механизмы авторизации соответствующие требованиям безопасности довольно сложные в разработке и сопровождении. Так же могут меняться способы авторизации/регистрации (например, с помощью соцсетей)
+Управление авторизацией пользователя и выхода из системы
+- Выделен отдельно от Users, т.к. механизмы авторизации соответствующие требованиям безопасности довольно сложные в разработке и сопровождении. Так же могут меняться способы авторизации/регистрации (например, с помощью соцсетей)
 
-[Login](/frontend/microfrontend/auth/src/components/Login.js) [Register](/frontend/microfrontend/auth/src/components/Register.js)
+Компоненты интерфейса:
+- [Login](/frontend/microfrontend/auth/src/components/Login.js)
+- [Register](/frontend/microfrontend/auth/src/components/Register.js)
 
+API:
+- [auth.js](/frontend/microfrontend/auth/src/utils/auth.js)
 
 ### Host
 Хост приложение, осуществляющее композицию "клиентским" методом. Способ интеграции компонентов - run time.
+- После разделения монолитного приложения этот сервис сохранил некоторые элементы "монолитности", но может сопровождаться отдельной командой. В то же время логику и количество компонентов в этом сервисе можно сократить, выделив *Popup компоненты либо в отдельную common-библиотеку, которая будет использоваться другими микрофронтендами. Либо, проведя более глубокий реинжиниринг с устранением зависимостей, распределить в сервисы **Cards**, **Users**, **Auth**
 
-??? стили places popup profile
-[text](frontend/src/components/InfoTooltip.js)
-[text](frontend/src/components/ImagePopup.js)
-[text](frontend/src/components/PopupWithForm.js)
-[text](frontend/src/components/Main.js)
+Компоненты интерфейса:
+- [Main](/frontend/microfrontend/host/src/components/Main.js)
+- [Footer](/frontend/microfrontend/host/src/components/Footer.js) 
+- [Header](/frontend/microfrontend/host/src/components/Header.js)
+- [ProtectedRoute](/frontend/microfrontend/host/src/components/ProtectedRoute.js)
+- [PopupWithForm](/frontend/microfrontend/host/src/components/PopupWithForm.js)
+- [AddPlacePopup](/frontend/microfrontend/host/src/components/AddPlacePopup.js) 
+- [ImagePopup](/frontend/microfrontend/host/src/components/ImagePopup.js) 
+- [EditAvatarPopup](/frontend/microfrontend/host/src/components/EditAvatarPopup.js) 
+- [EditProfilePopup](/frontend/microfrontend/host/src/components/EditProfilePopup.js) 
+- [InfoTooltip](/frontend/microfrontend/host/src/components/InfoTooltip.js)
+
+API:
+- [api.js](/frontend/microfrontend/host/src/utils/api.js)
